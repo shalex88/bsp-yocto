@@ -27,7 +27,13 @@ rm -rf "$tmpdir"
 mkdir -p "$tmpdir"
 echo "Using temp directory $tmpdir"
 pushd "$tmpdir"
-cp "$scriptdir"/../yocto/build/tmp/deploy/images/"${machine}"/"$deployfile" .
+
+if [ ! -f "$scriptdir/$deployfile" ]; then
+    cp "$scriptdir/../yocto/build/tmp/deploy/images/${machine}/$deployfile" .
+else
+    cp "$scriptdir/$deployfile" .
+fi
+
 tar -xvf "$deployfile"
 set -e
 sudo ./doflash.sh
